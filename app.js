@@ -40,7 +40,7 @@ app.get('/save', async (req, res) => {
     
         // Fetch messages from Telegram
         const messages = await client.getMessages(channelUsername, { limit });
-          console.log(messages)
+          //console.log(messages)
         // Save messages to MongoDB
         for (const telegramMessage of messages) {
 
