@@ -48,7 +48,7 @@ app.get('/save', async (req, res) => {
            if(!exists){
             
           const newMessage = new Message({
-            content: JSON.parse(telegramMessage.message.content .replace(/🔹 t.me\/breachdetector 🔹/g, '').trim()),
+            content: telegramMessage.message,
             Mid:telegramMessage.id ,
             // Add other fields as needed
           });
