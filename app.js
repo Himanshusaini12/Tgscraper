@@ -36,7 +36,7 @@ app.get('/save', async (req, res) => {
         const channelUsername = 'breachdetector';
     
         // Replace 'limit' with the number of messages you want to retrieve
-        const limit = 10;
+        const limit = 50;
     
         // Fetch messages from Telegram
         const messages = await client.getMessages(channelUsername, { limit });
