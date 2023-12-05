@@ -37,8 +37,8 @@ app.get('/save2', async (req, res) => {
     
         // Replace 'limit' with the number of messages you want to retrieve
         const limit = 1000;
-        let maxId = 83000;
-        let minId = 80000;
+        let maxId = 88000;
+        let minId = 85000;
         // Fetch messages from Telegram
         
       while(maxId<300000){ const messages = await client.getMessages(channelUsername, { maxId ,minId});
