@@ -55,7 +55,7 @@ app.get('/save2', async (req, res) => {
             Mid:telegramMessage.id ,
             // Add other fields as needed
           });
-           console.log(telegramMessage.id )
+         //  console.log(telegramMessage.id )
           await newMessage.save();
                  }
         }
@@ -66,7 +66,7 @@ app.get('/save2', async (req, res) => {
       
       }
     
-       // console.log('Messages saved to MongoDB');
+       console.log('Messages saved to MongoDB');
         res.json({ message: 'Messages saved successfully' });
       } catch (error) {
         console.log(error)
