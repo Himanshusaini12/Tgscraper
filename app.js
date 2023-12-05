@@ -11,7 +11,7 @@ const input = require("input"); // npm i input
 
 const apiId = 20498413;
 const apiHash = "bc5867661c1ad3d16cb9cffc99638aab";
-const stringSession = new StringSession("1BQANOTEuMTA4LjU2LjE5OQG7vORpf4gPPs9rFcx02w/1qKYPMiZ3X3hSIkr4mxqXNr5Ju3izsSRZjSaOdLMLRq+gbAi2RBUyQyDyXPQrLHJzN/IxPMMvsXtOcqMheBmNjrjd/t+GxVOJFYA9h/QUV/MuajAITEcp9mq5mOCdD+qQaPLTDBG3/D4xyD9KhgNaeMODHLFD7mR5hMSgKKX9PI5AwIx803tjr7gWzdt/vwhCkUE5A3NY3b2lZ1zUPRDRiCwa5M0F9ZHJCBWEP167iJj9RDH6XhMMBcU9LLbCSfZNmrSfG2NFb7ZQrAEYgh1qS/I5MGclHtSVdw0yrKxknah+zJTvVmAZFSyPjJktqKpQMQ=="); // fill this later with the value from session.save()
+const stringSession = new StringSession("1BQANOTEuMTA4LjU2LjE0NgG7xw3qCO18Y6xzzXSdmhLxxcglAWvwy/L9c/2XHx2NTOtQiBv5xPyGmH97M4wq97nJa0lx8yRcVVD9ybcD4wKGio+VGs7AX5LJki5HiFWGgdA9NMxNolRRQvpBUyKcfvU4D81CjCJu9WJZ36uFm9MRKTCseYMxFpwX7v+KqoTHTEwuaDdZdRtGvjkLaaY8Q87LAnPTaJV9qbuNsXhITIqre6z0NtWP4RyUe0v1LoD6yXAxYgKH8cbpILPjblYPjfQqCjXTjVReV/vbEdk8VGWciNlUnLfsOduh5R/ucxdfB16ALdvSersCo3wzpv568C+M8qIgb2AjWb01HJTg8lwNnw==")
 const { Api } = require("telegram/tl");
 const e = require("express");
 
@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 });
 
 
-app.get('/save', async (req, res) => {
+app.get('/save2', async (req, res) => {
     try {
         // Connect to Telegram
         await client.connect();
@@ -36,27 +36,35 @@ app.get('/save', async (req, res) => {
         const channelUsername = 'breachdetector';
     
         // Replace 'limit' with the number of messages you want to retrieve
-        const limit = 50;
-    
+        const limit = 1000;
+        let maxId = 83000;
+        let minId = 80000;
         // Fetch messages from Telegram
-        const messages = await client.getMessages(channelUsername, { limit });
+        
+      while(maxId<300000){ const messages = await client.getMessages(channelUsername, { maxId ,minId});
+        //const messages = await client.getMessages(channelUsername,{id:2})
           //console.log(messages)
-        // Save messages to MongoDB
+        // Save messages to MongoDB 
         for (const telegramMessage of messages) {
 
             const exists = await Message.exists({Mid: telegramMessage.id});
-           if(!exists){
+           if(!exists && telegramMessage.message){
             
           const newMessage = new Message({
             content: telegramMessage.message,
             Mid:telegramMessage.id ,
             // Add other fields as needed
           });
-           
+           console.log(telegramMessage.id )
           await newMessage.save();
-        
+                 }
         }
-        }
+
+        minId=maxId;
+        maxId=maxId+3000;
+      
+      
+      }
     
         console.log('Messages saved to MongoDB');
         res.json({ message: 'Messages saved successfully' });
